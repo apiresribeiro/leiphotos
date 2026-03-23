@@ -9,6 +9,7 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
     private Collection<IPhoto> matchesApagadas; 
     private final int MAX_DATE = 30;
     private LocalDateTime dataAtual = LocalDateTime.now();
+    private LocalDateTime dataCleaningTime;
 
 
     @Override
@@ -22,8 +23,8 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
             return false;
         }
 
-        for (IPhoto photoInLib : photosApagadas){
-            photosApagadas.remove(photoInLib);
+        for (IPhoto photoInLib : this.photosApagadas){
+            this.photosApagadas.remove(photoInLib);
         }
         return true;
     }
@@ -35,20 +36,20 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
 
      @Override
     public boolean addPhoto(IPhoto photo) {
-        for(IPhoto photoInLib : photosApagadas){
+        for(IPhoto photoInLib : this.photosApagadas){
             if(photoInLib.equals(photo)){
                 return false;
             }
         }
-        photosApagadas.add(photo);
+        this.photosApagadas.add(photo);
         return true; 
     }
 
     @Override
     public boolean deletePhoto(IPhoto photo) {
-        for(IPhoto photoInLib : photosApagadas){
+        for(IPhoto photoInLib : this.photosApagadas){
             if(photoInLib.equals(photo)){
-                photosApagadas.remove(photo);
+                this.photosApagadas.remove(photo);
                 return true;
             }
         }
@@ -57,30 +58,29 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
 
     @Override
     public Collection<IPhoto> getMatches(String regexp) {
-        for (IPhoto photoInLib : photosApagadas){
+        for (IPhoto photoInLib : this.photosApagadas){
             if(photoInLib.matches(regexp))
-                matchesApagadas.add(photoInLib); 
+                this.matchesApagadas.add(photoInLib); 
         }
-        return matchesApagadas;        
+        return this.matchesApagadas;        
     }
 
     @Override
     protected void clean() {
         if (cleaningTime()){
-            for (IPhoto photo : photosApagadas){
-                if(photo.addedDate().compareTo(dataAtual) >= MAX_DATE){
+            for (IPhoto photo : this.photosApagadas){
+                if(photo.addedDate().compareTo(this.dataAtual) >= MAX_DATE){
                     this.deletePhoto(photo);
                 }
             }
+            this.dataCleaningTime = this.dataAtual;
         }
     }
 
     @Override
     protected boolean cleaningTime() {
-        for (IPhoto photo : photosApagadas){
-            if(photo.addedDate().compareTo(dataAtual) >= MAX_DATE){
-                return true;
-            }
+        if(this.dataCleaningTime.compareTo(this.dataAtual) >= MAX_DATE){
+            return true;
         }
         return false;
     }
