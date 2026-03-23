@@ -9,6 +9,7 @@ import leiphotos.utils.AbsSubject;
 public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Library {
     private Collection<IPhoto> lib; 
     private Collection<IPhoto> matches;
+    private RecentlyDeletedLibrary lixo;
 
     @Override
     public int getNumberOfPhotos() {
@@ -29,6 +30,7 @@ public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Librar
     public boolean deletePhoto(IPhoto photo) {
         for(IPhoto photoInLib : lib){
             if(photoInLib.equals(photo))
+                lixo.addPhoto(photo);
                 lib.remove(photo);
                 return true; 
         }
