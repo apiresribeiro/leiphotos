@@ -1,59 +1,87 @@
 package leiphotos.domain.core;
 
 import java.util.Collection;
-
+import java.time.LocalDateTime;
 import leiphotos.domain.facade.IPhoto;
 
 public class RecentlyDeletedLibrary extends ATrashLibrary {
+    private Collection<IPhoto> photosApagadas; 
+    private Collection<IPhoto> matchesApagadas; 
+    private final int MAX_DATE = 30;
+    private LocalDateTime dataAtual = LocalDateTime.now();
+
 
     @Override
     public Collection<IPhoto> getPhotos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPhotos'");
+        return this.photosApagadas;
     }
 
     @Override
     public boolean deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
+        if (this.photosApagadas.isEmpty()){
+            return false;
+        }
+
+        for (IPhoto photoInLib : photosApagadas){
+            photosApagadas.remove(photoInLib);
+        }
+        return true;
     }
 
     @Override
     public int getNumberOfPhotos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNumberOfPhotos'");
+        return this.photosApagadas.size();
     }
 
-    @Override
+     @Override
     public boolean addPhoto(IPhoto photo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addPhoto'");
+        for(IPhoto photoInLib : photosApagadas){
+            if(photoInLib.equals(photo)){
+                return false;
+            }
+        }
+        photosApagadas.add(photo);
+        return true; 
     }
 
     @Override
     public boolean deletePhoto(IPhoto photo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePhoto'");
+        for(IPhoto photoInLib : photosApagadas){
+            if(photoInLib.equals(photo)){
+                photosApagadas.remove(photo);
+                return true;
+            }
+        }
+        return false; 
     }
 
     @Override
     public Collection<IPhoto> getMatches(String regexp) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMatches'");
+        for (IPhoto photoInLib : photosApagadas){
+            if(photoInLib.matches(regexp))
+                matchesApagadas.add(photoInLib); 
+        }
+        return matchesApagadas;        
     }
 
     @Override
     protected void clean() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clean'");
+        if (cleaningTime()){
+            for (IPhoto photo : photosApagadas){
+                if(photo.addedDate().compareTo(dataAtual) >= MAX_DATE){
+                    this.deletePhoto(photo);
+                }
+            }
+        }
     }
 
     @Override
     protected boolean cleaningTime() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cleaningTime'");
+        for (IPhoto photo : photosApagadas){
+            if(photo.addedDate().compareTo(dataAtual) >= MAX_DATE){
+                return true;
+            }
+        }
+        return false;
     }
-
-    
-
 };
