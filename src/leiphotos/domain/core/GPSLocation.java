@@ -1,18 +1,26 @@
 package leiphotos.domain.core;
 
-import java.util.Arrays;
-
+import leiphotos.domain.facade.GPSCoordinates;
 import leiphotos.utils.RegExpMatchable;
 
 public record GPSLocation(
     double[] coordinates,
-    String description) implements RegExpMatchable {
+    String description) implements GPSCoordinates, RegExpMatchable {
 
   @Override
   public boolean matches(String regexp) {
-    boolean matchesCoordinates = (this.coordinates != null) && Arrays.toString(coordinates).matches(regexp);
     boolean matchesDescription = (this.description != null) && this.description.matches(regexp);
 
-    return matchesCoordinates || matchesDescription;
+    return matchesDescription;
+  }
+
+  @Override
+  public double latitude() {
+    return coordinates[1];
+  }
+
+  @Override
+  public double longitude() {
+    return coordinates[0];
   }
 }
