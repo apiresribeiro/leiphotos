@@ -1,11 +1,10 @@
 package leiphotos.domain.core;
 
 import java.time.LocalDateTime;
-import leiphotos.domain.facade.GPSCoordinates;
 import leiphotos.utils.RegExpMatchable;
 
 public record PhotoMetadata(
-    GPSCoordinates location,
+    GPSLocation location,
     LocalDateTime date,
     String camera,
     String fabricante) implements RegExpMatchable {
