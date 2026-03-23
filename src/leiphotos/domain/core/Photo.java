@@ -53,7 +53,11 @@ public class Photo implements IPhoto, RegExpMatchable {
 
   @Override
   public boolean matches(String regexp) {
-    return false;
+    boolean matchesTitle = (this.title != null) && this.title.matches(regexp);
+    boolean matchesCapturedDate = (this.capturedDate != null) && this.capturedDate.toString().matches(regexp);
+    boolean matchesLocation = (this.location != null) && this.location.toString().matches(regexp);
+
+    return matchesTitle || matchesCapturedDate || matchesLocation;
   }
 
   @Override
