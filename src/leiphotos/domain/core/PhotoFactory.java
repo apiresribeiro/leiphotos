@@ -11,8 +11,7 @@ import leiphotos.domain.metadatareader.JpegMetadataReaderFactory;
 public enum PhotoFactory {
   INSTANCE;
 
-  // TODO: Posso colocar esta esception aqui? (No enunciado só diz a do file)
-  Photo createPhoto(String title, String pathToPhotoFile) throws java.io.FileNotFoundException, JpegMetadataException {
+  Photo createPhoto(String title, String pathToPhotoFile) throws java.io.FileNotFoundException {
     File file = new File(pathToPhotoFile);
     try {
       JpegMetadataReader reader = JpegMetadataReaderFactory.INSTACE.createMetadataReader(file);
@@ -29,12 +28,10 @@ public enum PhotoFactory {
           reader.getManufacturer());
 
       LocalDateTime now = LocalDateTime.now();
-      return new Photo(title, now, metadata, file); // TODO: dateAddedToLib é .now()?
+      return new Photo(title, now, metadata, file);
 
-    } catch (JpegMetadataException e) {
-      throw new JpegMetadataException("Erro ao criar JpegMetadataReader.", e);
-    } catch (FileNotFoundException e) {
-      throw new FileNotFoundException("Ficheiro não encontrado: " + pathToPhotoFile);
+    } catch (JpegMetadataException | FileNotFoundException e) {
+      return null;
     }
   };
 };
