@@ -1,5 +1,12 @@
 package leiphotos.domain.metadatareader;
 
-public class JpegMetadataReaderFactory implements JpegMetadataReader {
+import java.io.File;
+import java.io.FileNotFoundException;
 
+public enum JpegMetadataReaderFactory {
+  INSTACE;
+
+  public JpegMetadataReader createMetadataReader(File file) throws JpegMetadataException, FileNotFoundException {
+    return new JavaXTMetadataReaderAdapter(file);
+  }
 };
