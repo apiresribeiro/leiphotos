@@ -1,10 +1,7 @@
 package leiphotos.domain.albums;
 
 import leiphotos.domain.core.MainLibrary;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,13 +10,18 @@ import leiphotos.domain.facade.IPhoto;
 public class AlbumsCatalog implements IAlbumsCatalog {
 
     private HashMap<String, Album> nameToAlbum; 
+    private MainLibrary lib;
+
+    public AlbumsCatalog (MainLibrary library){
+        this.nameToAlbum = new HashMap<>();
+        this.lib = library;
+    }
 
     @Override
     public boolean createAlbum(String albumName){
         if (this.nameToAlbum.containsKey(albumName)){
             return false;
         }
-        MainLibrary lib = new MainLibrary();
         Album newAlbum = new Album(albumName, lib);
         this.nameToAlbum.put(albumName, newAlbum);
         return true; 
