@@ -6,9 +6,24 @@ import java.util.Set;
 
 import leiphotos.domain.facade.ILibrariesController;
 import leiphotos.domain.facade.IPhoto;
+import leiphotos.domain.facade.ViewsType;
+import leiphotos.domain.views.ILibraryView;
+import leiphotos.domain.views.IViewsCatalog;
+import leiphotos.domain.core.MainLibrary;
 import leiphotos.domain.core.PhotoFactory;
+import leiphotos.domain.core.TrashLibrary;
 
 public class LibrariesController implements ILibrariesController {
+
+    MainLibrary mainLibrary;
+    TrashLibrary trashLibrary;
+    IViewsCatalog viewsCatalog;
+
+    public LibrariesController (MainLibrary main, TrashLibrary trash, IViewsCatalog views){
+        this.mainLibrary = main; 
+        this.trashLibrary = trash;
+        this.viewsCatalog = views; 
+    }
 
     @Override
     public Optional<IPhoto> importPhoto(String title, String pathToPhotoFile) {
@@ -22,26 +37,29 @@ public class LibrariesController implements ILibrariesController {
 
     @Override
     public void deletePhotos(Set<IPhoto> selectedPhotos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePhotos'");
+        for(IPhoto photo : selectedPhotos){
+            if(this.mainLibrary.containsPhoto(photo)){
+                this.mainLibrary.deletePhoto(photo);
+            }
+        }
     }
 
     @Override
     public void emptyTrash() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'emptyTrash'");
+        this.trashLibrary.deleteAll();
     }
 
     @Override
     public void toggleFavourite(Set<IPhoto> selectedPhotos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toggleFavourite'");
+        for (IPhoto photo : selectedPhotos){
+            photo.toggleFavourite();
+        }
     }
 
     @Override
     public Iterable<IPhoto> getMatches(String regExp) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMatches'");
+        ILibraryView vista = this.viewsCatalog.getView(ViewsType.ALL_MAIN);
+        return vista.getMatches(regExp);
     }
 
 };

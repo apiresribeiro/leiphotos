@@ -11,6 +11,14 @@ public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Librar
     private Collection<IPhoto> matches;
     private RecentlyDeletedLibrary lixo;
 
+    public boolean containsPhoto(IPhoto photo){
+        for (IPhoto photoInCollection : this.lib){
+            if(photoInCollection.equals(photo)){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public int getNumberOfPhotos() {
         return lib.size();
