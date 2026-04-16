@@ -1,56 +1,69 @@
 package leiphotos.domain.controllers;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import leiphotos.domain.albums.IAlbumsCatalog;
-
 import leiphotos.domain.facade.IAlbumsController;
 import leiphotos.domain.facade.IPhoto;
 
 public class AlbumsController implements IAlbumsController {
 
+    IAlbumsCatalog catalogAlbums;
+    String nomeAlbumSelecionado;
+
+    public AlbumsController(IAlbumsCatalog catalog){
+        this.catalogAlbums = catalog;
+        this.nomeAlbumSelecionado = null;
+    }
+
     @Override
     public boolean createAlbum(String name) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'createAlbum'");
+        return catalogAlbums.createAlbum(name);
     }
 
     @Override
     public void removeAlbum() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeAlbum'");
+        if(this.nomeAlbumSelecionado!=null){
+            this.catalogAlbums.removePhotos(nomeAlbumSelecionado, new HashSet<>(this.catalogAlbums.getPhotos(nomeAlbumSelecionado)));
+        }
     }
 
     @Override
     public void selectAlbum(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectAlbum'");
+        this.nomeAlbumSelecionado = name;
     }
 
     @Override
     public void addPhotos(Set<IPhoto> selectedPhotos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addPhotos'");
+        if(this.nomeAlbumSelecionado!=null){
+            this.catalogAlbums.addPhotos(this.nomeAlbumSelecionado, selectedPhotos);
+        }
     }
 
     @Override
     public void removePhotos(Set<IPhoto> selectedPhotos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removePhotos'");
+        if(this.nomeAlbumSelecionado!=null){
+            this.catalogAlbums.removePhotos(this.nomeAlbumSelecionado, selectedPhotos);
+        }
     }
 
     @Override
     public List<IPhoto> getPhotos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPhotos'");
+        if(this.nomeAlbumSelecionado!=null){
+            return this.catalogAlbums.getPhotos(nomeAlbumSelecionado);
+        }
+        return null;
     }
 
     @Override
     public Optional<String> getSelectedAlbum() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSelectedAlbum'");
+        if (this.nomeAlbumSelecionado != null){
+            return Optional.of(this.nomeAlbumSelecionado);
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -61,8 +74,7 @@ public class AlbumsController implements IAlbumsController {
 
     @Override
     public Set<String> getAlbumNames() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAlbumNames'");
+        return this.catalogAlbums.getAlbumNames();
     }
 
 };
