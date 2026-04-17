@@ -1,16 +1,21 @@
 package leiphotos.domain.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import leiphotos.domain.facade.IPhoto;
 
 public class RecentlyDeletedLibrary extends ATrashLibrary {
     private Collection<IPhoto> photosApagadas; 
-    private Collection<IPhoto> matchesApagadas; 
     private final int MAX_DATE = 30;
-    private LocalDateTime dataAtual = LocalDateTime.now();
+    private LocalDateTime dataAtual;
     private LocalDateTime dataCleaningTime;
 
+    public RecentlyDeletedLibrary (){
+        this.photosApagadas = new ArrayList<>();
+        this.dataCleaningTime = LocalDateTime.now();
+    }
 
     @Override
     public Collection<IPhoto> getPhotos() {
@@ -23,9 +28,7 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
             return false;
         }
 
-        for (IPhoto photoInLib : this.photosApagadas){
-            this.photosApagadas.remove(photoInLib);
-        }
+        this.photosApagadas.clear();
         return true;
     }
 
@@ -36,40 +39,30 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
 
      @Override
     public boolean addPhoto(IPhoto photo) {
-        for(IPhoto photoInLib : this.photosApagadas){
-            if(photoInLib.equals(photo)){
-                return false;
-            }
-        }
-        this.photosApagadas.add(photo);
-        return true; 
+        return this.photosApagadas.add(photo);
     }
 
     @Override
     public boolean deletePhoto(IPhoto photo) {
-        for(IPhoto photoInLib : this.photosApagadas){
-            if(photoInLib.equals(photo)){
-                this.photosApagadas.remove(photo);
-                return true;
-            }
-        }
-        return false; 
+        return this.photosApagadas.remove(photo);
     }
 
     @Override
     public Collection<IPhoto> getMatches(String regexp) {
+        Collection<IPhoto> matches = new ArrayList<>();
         for (IPhoto photoInLib : this.photosApagadas){
             if(photoInLib.matches(regexp))
-                this.matchesApagadas.add(photoInLib); 
+                matches.add(photoInLib); 
         }
-        return this.matchesApagadas;        
+        return matches;        
     }
 
     @Override
     protected void clean() {
         if (cleaningTime()){
             for (IPhoto photo : this.photosApagadas){
-                if(photo.addedDate().compareTo(this.dataAtual) >= MAX_DATE){
+                Duration duration = Duration.between(photo.addedDate(), dataAtual);
+                if(duration.toDays() >= MAX_DATE){
                     this.deletePhoto(photo);
                 }
             }
@@ -79,9 +72,8 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
 
     @Override
     protected boolean cleaningTime() {
-        if(this.dataCleaningTime.compareTo(this.dataAtual) >= MAX_DATE){
-            return true;
-        }
-        return false;
+        this.dataAtual = LocalDateTime.now();
+        Duration duration = Duration.between(this.dataAtual, dataAtual);
+        return duration.toDays() >= MAX_DATE;
     }
 };

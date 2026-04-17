@@ -35,6 +35,7 @@ public class LibrariesController implements ILibrariesController {
         for(IPhoto photo : selectedPhotos){
             if(this.mainLibrary.containsPhoto(photo)){
                 this.mainLibrary.deletePhoto(photo);
+                this.trashLibrary.addPhoto(photo);
             }
         }
     }
