@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import leiphotos.domain.core.MainLibrary;
 import leiphotos.domain.core.events.PhotoLibraryEvent;
+import leiphotos.domain.core.events.PhotoAddedLibraryEvent;
 import leiphotos.domain.facade.IPhoto;
 import leiphotos.utils.Listener;
 
@@ -20,8 +21,23 @@ public class MainLibraryView extends ALibraryView implements Listener<PhotoLibra
 
   @Override
   public void processEvent(PhotoLibraryEvent e) {
-    if (e.equals(PhotoAddedLibraryEvent)) {
+    IPhoto photo = e.getPhoto();
 
+    if (e instanceof PhotoAddedLibraryEvent) {
+      if (filter == null || filter.test(photo)) {
+        cache.add(photo);
+      }
+    } else if (e instanceof PhotoAddedLibraryEvent) {
+      if (filter == null || filter.test(photo)) {
+        cache.remove(photo);
+      }
+    } else {
+      cache.clear();
+      for (IPhoto p : library.getPhotos()) {
+        if (filter == null || filter.test(photo)) {
+          cache.add(p);
+        }
+      }
     }
   }
 };

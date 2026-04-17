@@ -9,7 +9,7 @@ import java.util.List;
 import leiphotos.domain.facade.IPhoto;
 
 public abstract class ALibraryView implements ILibraryView {
-  private final Library library;
+  protected Library library;
   protected Predicate<IPhoto> filter;
   protected Comparator<IPhoto> comparator = Comparator.comparing(IPhoto::size);
 
