@@ -31,10 +31,13 @@ public class MainLibraryView extends ALibraryView implements Listener<PhotoLibra
       if (filter == null || filter.test(photo)) {
         cache.remove(photo);
       }
-    } else {
+    }
+    // Mudança de predicado, tem que aplicar o novo filtro na library
+    // (PhotoChangedLibraryEvent)
+    else {
       cache.clear();
       for (IPhoto p : library.getPhotos()) {
-        if (filter == null || filter.test(photo)) {
+        if (filter == null || filter.test(p)) {
           cache.add(p);
         }
       }
