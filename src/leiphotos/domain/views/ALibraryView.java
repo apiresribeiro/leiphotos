@@ -13,9 +13,10 @@ public abstract class ALibraryView implements ILibraryView {
   protected Predicate<IPhoto> filter;
   protected Comparator<IPhoto> comparator = Comparator.comparing(IPhoto::size);
 
-  protected ALibraryView(Library library, Predicate<IPhoto> filter) {
+  protected ALibraryView(Library library, Predicate<IPhoto> filter, Comparator<IPhoto> comparator) {
     this.library = library;
     this.filter = filter;
+    this.comparator = comparator;
   }
 
   @Override
