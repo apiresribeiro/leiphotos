@@ -11,7 +11,7 @@ import leiphotos.domain.metadatareader.JpegMetadataReaderFactory;
 public enum PhotoFactory {
   INSTANCE;
 
-  Photo createPhoto(String title, String pathToPhotoFile) throws java.io.FileNotFoundException {
+  public Photo createPhoto(String title, String pathToPhotoFile) throws java.io.FileNotFoundException {
     File file = new File(pathToPhotoFile);
     try {
       JpegMetadataReader reader = JpegMetadataReaderFactory.INSTACE.createMetadataReader(file);
