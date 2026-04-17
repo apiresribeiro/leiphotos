@@ -1,5 +1,6 @@
 package leiphotos.domain.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import leiphotos.domain.core.events.PhotoLibraryEvent;
@@ -9,16 +10,13 @@ import leiphotos.utils.AbsSubject;
 public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Library {
     private Collection<IPhoto> lib; 
     private Collection<IPhoto> matches;
-    private RecentlyDeletedLibrary lixo;
 
-    public boolean containsPhoto(IPhoto photo){
-        for (IPhoto photoInCollection : this.lib){
-            if(photoInCollection.equals(photo)){
-                return true;
-            }
-        }
-        return false;
+    public MainLibrary(){
+        this.lib = new ArrayList<>();
+        this.matches = new ArrayList<>();
+            
     }
+
     @Override
     public int getNumberOfPhotos() {
         return lib.size();
@@ -26,23 +24,12 @@ public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Librar
 
     @Override
     public boolean addPhoto(IPhoto photo) {
-        for(IPhoto photoInLib : lib){
-            if(photoInLib.equals(photo))
-                return false;
-        }
-        lib.add(photo);
-        return true; 
+        return lib.add(photo);
     }
 
     @Override
     public boolean deletePhoto(IPhoto photo) {
-        for(IPhoto photoInLib : lib){
-            if(photoInLib.equals(photo))
-                lixo.addPhoto(photo);
-                lib.remove(photo);
-                return true; 
-        }
-        return false; 
+        return this.lib.remove(photo);
     }
 
     @Override
