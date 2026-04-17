@@ -17,12 +17,10 @@ public class LibrariesController implements ILibrariesController {
 
     MainLibrary mainLibrary;
     TrashLibrary trashLibrary;
-    IViewsCatalog viewsCatalog;
 
-    public LibrariesController (MainLibrary main, TrashLibrary trash, IViewsCatalog views){
+    public LibrariesController (MainLibrary main, TrashLibrary trash){
         this.mainLibrary = main; 
         this.trashLibrary = trash;
-        this.viewsCatalog = views; 
     }
 
     @Override
@@ -58,8 +56,7 @@ public class LibrariesController implements ILibrariesController {
 
     @Override
     public Iterable<IPhoto> getMatches(String regExp) {
-        ILibraryView vista = this.viewsCatalog.getView(ViewsType.ALL_MAIN);
-        return vista.getMatches(regExp);
+        return this.mainLibrary.getMatches(regExp);
     }
 
 };
