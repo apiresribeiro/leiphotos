@@ -73,7 +73,7 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
     @Override
     protected boolean cleaningTime() {
         this.dataAtual = LocalDateTime.now();
-        Duration duration = Duration.between(this.dataAtual, dataAtual);
+        Duration duration = Duration.between(this.dataCleaningTime, dataAtual);
         return duration.toDays() >= MAX_DATE;
     }
 };
