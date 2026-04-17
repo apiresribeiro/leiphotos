@@ -4,9 +4,7 @@ import leiphotos.domain.core.Library;
 import leiphotos.domain.facade.IPhoto;
 
 public class PhotoRemovedLibraryEvent extends PhotoLibraryEvent {
-
-    PhotoRemovedLibraryEvent(IPhoto photo, Library lib) {
-        super(photo, lib);
-    }
-
+  public PhotoRemovedLibraryEvent(IPhoto photo, Library lib) {
+    super(photo, lib);
+  }
 }
