@@ -1,5 +1,10 @@
 package leiphotos.domain.core.events;
 
-public class PhotoRemovedLibraryEvent extends PhotoLibraryEvent {
+import leiphotos.domain.core.Library;
+import leiphotos.domain.facade.IPhoto;
 
+public class PhotoRemovedLibraryEvent extends PhotoLibraryEvent {
+  public PhotoRemovedLibraryEvent(IPhoto photo, Library lib) {
+    super(photo, lib);
+  }
 }
