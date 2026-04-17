@@ -6,9 +6,6 @@ import java.util.Set;
 
 import leiphotos.domain.facade.ILibrariesController;
 import leiphotos.domain.facade.IPhoto;
-import leiphotos.domain.facade.ViewsType;
-import leiphotos.domain.views.ILibraryView;
-import leiphotos.domain.views.IViewsCatalog;
 import leiphotos.domain.core.MainLibrary;
 import leiphotos.domain.core.PhotoFactory;
 import leiphotos.domain.core.TrashLibrary;
