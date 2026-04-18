@@ -76,4 +76,11 @@ public class AlbumsController implements IAlbumsController {
     return this.catalogAlbums.getAlbumNames();
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("AlbumsController[Albums:").append(getAlbumNames()).append("]");
+    return sb.toString();
+  }
+
 };

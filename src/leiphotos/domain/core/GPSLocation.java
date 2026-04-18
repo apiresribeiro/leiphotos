@@ -23,4 +23,12 @@ public record GPSLocation(
   public double longitude() {
     return coordinates[0];
   }
+
+  @Override
+  public String toString() {
+    if (coordinates == null || coordinates.length < 2) {
+      return "No Location";
+    }
+    return "{Lat:" + coordinates[1] + " Long:" + coordinates[0] + " Desc:" + description + "}";
+  }
 }

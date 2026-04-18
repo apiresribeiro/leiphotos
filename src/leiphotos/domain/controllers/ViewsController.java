@@ -31,4 +31,31 @@ public class ViewsController implements IViewsController {
         this.viewsCatalog.getView(v).setComparator(criteria);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("***** VIEWS *****\n");
+        
+        sb.append("***** VIEW ALL_MAIN: ").append(getPhotos(ViewsType.ALL_MAIN).size()).append(" photos *****\n");
+        for (IPhoto p : getPhotos(ViewsType.ALL_MAIN)) {
+            sb.append(p.file().getName()).append("\n");
+        }
+        
+        sb.append("***** VIEW ALL_TRASH: ").append(getPhotos(ViewsType.ALL_TRASH).size()).append(" photos *****\n");
+        for (IPhoto p : getPhotos(ViewsType.ALL_TRASH)) {
+            sb.append(p.file().getName()).append("\n");
+        }
+        
+        sb.append("***** VIEW FAVOURITES: ").append(getPhotos(ViewsType.FAVOURITES).size()).append(" photos *****\n");
+        for (IPhoto p : getPhotos(ViewsType.FAVOURITES)) {
+            sb.append(p.file().getName()).append("\n");
+        }
+        
+        sb.append("***** VIEW MOST_RECENT: ").append(getPhotos(ViewsType.MOST_RECENT).size()).append(" photos *****\n");
+        for (IPhoto p : getPhotos(ViewsType.MOST_RECENT)) {
+            sb.append(p.file().getName()).append("\n");
+        }
+        
+        return sb.toString();
+    }
 };

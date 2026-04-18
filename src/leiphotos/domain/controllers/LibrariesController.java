@@ -62,9 +62,32 @@ public class LibrariesController implements ILibrariesController {
     }
   }
 
-  @Override
+@Override
   public Iterable<IPhoto> getMatches(String regExp) {
     return this.mainLibrary.getMatches(regExp);
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("***** MAIN PHOTO LIBRARY: ");
+    int count = 0;
+    for (IPhoto p : mainLibrary.getMatches(".*")) {
+      count++;
+    }
+    sb.append(count).append(" photos *****\n");
+    for (IPhoto p : mainLibrary.getMatches(".*")) {
+      String fav = p.isFavourite() ? "   FAV" : "";
+      sb.append(" File:").append(p.file().getName()).append("\n");
+      sb.append("   Title:").append(p.title()).append("  Added:").append(p.addedDate()).append("  Size:").append(p.size()).append(fav).append("\n");
+      sb.append("   ").append(p.getPlace()).append("  ").append(p.capturedDate()).append("\n");
+    }
+    sb.append("***** TRASH PHOTO LIBRARY: ");
+    int trashCount = 0;
+    for (IPhoto p : trashLibrary.getPhotos()) {
+      trashCount++;
+    }
+    sb.append(trashCount).append(" photos *****\n");
+    return sb.toString();
+  }
 };
