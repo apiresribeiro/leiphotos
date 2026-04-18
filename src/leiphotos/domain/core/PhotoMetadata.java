@@ -1,13 +1,18 @@
 package leiphotos.domain.core;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import leiphotos.utils.RegExpMatchable;
 
 public record PhotoMetadata(
-    GPSLocation location,
+    Optional<GPSLocation> location,
     LocalDateTime date,
     String camera,
     String fabricante) implements RegExpMatchable {
+
+  public PhotoMetadata(GPSLocation location, LocalDateTime date, String camera, String fabricante) {
+    this(Optional.ofNullable(location), date, camera, fabricante);
+  }
 
   @Override
   public boolean matches(String regexp) {
