@@ -10,27 +10,30 @@ import leiphotos.domain.facade.ViewsType;
 
 public class ViewsCatalog implements IViewsCatalog {
   private final Comparator<IPhoto> defaultFilter = Comparator.comparing(IPhoto::size);
-  private final MainLibrary mainLib;
-  private final TrashLibrary trashLib;
+
+  private final ILibraryView allMainView;
+  private final ILibraryView allTrashView;
+  private final ILibraryView favouritesView;
+  private final ILibraryView mostRecentView;
 
   public ViewsCatalog(MainLibrary mainLib, TrashLibrary trashLib) {
-    this.mainLib = mainLib;
-    this.trashLib = trashLib;
+    this.allMainView = new MainLibraryView(mainLib, p -> true, defaultFilter);
+    this.allTrashView = new TrashLibraryView(trashLib, p -> true, defaultFilter);
+    this.favouritesView = new MainLibraryView(mainLib, p -> p.isFavourite(), defaultFilter);
+    this.mostRecentView = new MainLibraryView(
+        mainLib,
+        p -> p.capturedDate().isAfter(LocalDateTime.now().minusMonths(12)),
+        defaultFilter);
+
   }
 
   @Override
   public ILibraryView getView(ViewsType t) {
     return switch (t) {
-      case ALL_MAIN -> new MainLibraryView(mainLib, p -> true, defaultFilter);
-
-      case ALL_TRASH -> new TrashLibraryView(trashLib, p -> true, defaultFilter);
-
-      case FAVOURITES -> new MainLibraryView(mainLib, p -> p.isFavourite(), defaultFilter);
-
-      case MOST_RECENT -> new MainLibraryView(
-          mainLib,
-          p -> p.capturedDate().isAfter(LocalDateTime.now().minusMonths(12)),
-          defaultFilter);
+      case ALL_MAIN -> allMainView;
+      case ALL_TRASH -> allTrashView;
+      case FAVOURITES -> favouritesView;
+      case MOST_RECENT -> mostRecentView;
     };
   }
 };

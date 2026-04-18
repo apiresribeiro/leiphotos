@@ -17,8 +17,6 @@ public enum PhotoFactory {
       JpegMetadataReader reader = JpegMetadataReaderFactory.INSTACE.createMetadataReader(file);
       double[] coords = reader.getGpsLocation();
 
-      // TODO: A descrição é inicializada a null?
-
       // Se a foto não tiver localização, então GPSLocation é null
       GPSLocation location = (coords != null) ? new GPSLocation(coords, null) : null;
       PhotoMetadata metadata = new PhotoMetadata(
@@ -30,7 +28,7 @@ public enum PhotoFactory {
       LocalDateTime now = LocalDateTime.now();
       return new Photo(title, now, metadata, file);
 
-    } catch (JpegMetadataException | FileNotFoundException e) {
+    } catch (JpegMetadataException | FileNotFoundException | IllegalArgumentException e) {
       return null;
     }
   };

@@ -16,7 +16,7 @@ public record PhotoMetadata(
 
   @Override
   public boolean matches(String regexp) {
-    boolean matchesLocation = (this.location != null) && this.location.toString().matches(regexp);
+    boolean matchesLocation = location.map(l -> l.toString().matches(regexp)).orElse(false);
     boolean matchesDate = (this.date != null) && this.date.toString().matches(regexp);
     boolean matchesCamera = (this.camera != null) && this.camera.matches(regexp);
     boolean matchesFabricante = (this.fabricante != null) && this.fabricante.matches(regexp);

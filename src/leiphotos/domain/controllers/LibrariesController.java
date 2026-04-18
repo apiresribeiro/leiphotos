@@ -12,49 +12,59 @@ import leiphotos.domain.core.TrashLibrary;
 
 public class LibrariesController implements ILibrariesController {
 
-    MainLibrary mainLibrary;
-    TrashLibrary trashLibrary;
+  MainLibrary mainLibrary;
+  TrashLibrary trashLibrary;
 
-    public LibrariesController (MainLibrary main, TrashLibrary trash){
-        this.mainLibrary = main; 
-        this.trashLibrary = trash;
-    }
+  public LibrariesController(MainLibrary main, TrashLibrary trash) {
+    this.mainLibrary = main;
+    this.trashLibrary = trash;
+  }
 
-    @Override
-    public Optional<IPhoto> importPhoto(String title, String pathToPhotoFile) {
-        try {
-            IPhoto newPhoto = PhotoFactory.INSTANCE.createPhoto(title, pathToPhotoFile);
-            return Optional.of(newPhoto);
-        } catch (FileNotFoundException e) {
-            return Optional.empty();
-        }
-    }
+  @Override
+  public Optional<IPhoto> importPhoto(String title, String pathToPhotoFile) {
+    try {
+      IPhoto newPhoto = PhotoFactory.INSTANCE.createPhoto(title, pathToPhotoFile);
+      if (newPhoto == null) {
+        return Optional.empty();
+      }
 
-    @Override
-    public void deletePhotos(Set<IPhoto> selectedPhotos) {
-        for(IPhoto photo : selectedPhotos){
-            if(this.mainLibrary.containsPhoto(photo)){
-                this.mainLibrary.deletePhoto(photo);
-                this.trashLibrary.addPhoto(photo);
-            }
-        }
-    }
+      if (!this.mainLibrary.addPhoto(newPhoto)) {
+        return Optional.empty();
+      }
 
-    @Override
-    public void emptyTrash() {
-        this.trashLibrary.deleteAll();
+      return Optional.of(newPhoto);
+    } catch (FileNotFoundException e) {
+      return Optional.empty();
     }
+  }
 
-    @Override
-    public void toggleFavourite(Set<IPhoto> selectedPhotos) {
-        for (IPhoto photo : selectedPhotos){
-            photo.toggleFavourite();
-        }
+  @Override
+  public void deletePhotos(Set<IPhoto> selectedPhotos) {
+    for (IPhoto photo : selectedPhotos) {
+      if (this.mainLibrary.deletePhoto(photo)) {
+        this.trashLibrary.addPhoto(photo);
+      }
     }
+  }
 
-    @Override
-    public Iterable<IPhoto> getMatches(String regExp) {
-        return this.mainLibrary.getMatches(regExp);
+  @Override
+  public void emptyTrash() {
+    this.trashLibrary.deleteAll();
+  }
+
+  @Override
+  public void toggleFavourite(Set<IPhoto> selectedPhotos) {
+    for (IPhoto photo : selectedPhotos) {
+      if (this.mainLibrary.getPhotos().contains(photo)) {
+        photo.toggleFavourite();
+        this.mainLibrary.photoChanged(photo);
+      }
     }
+  }
+
+  @Override
+  public Iterable<IPhoto> getMatches(String regExp) {
+    return this.mainLibrary.getMatches(regExp);
+  }
 
 };

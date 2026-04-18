@@ -16,12 +16,11 @@ public class Photo implements IPhoto, RegExpMatchable {
   private String title;
   private GPSCoordinates location;
 
-  Photo(String title, LocalDateTime dateAddedToLib, PhotoMetadata metadata, File pathToFile) { // TODO: pathToFile não
-                                                                                               // devia ser só file?
+  Photo(String title, LocalDateTime dateAddedToLib, PhotoMetadata metadata, File pathToFile) {
     this.title = title;
     this.addedDate = dateAddedToLib;
     this.capturedDate = metadata.date();
-    this.location = metadata.location();
+    this.location = metadata.location().orElse(null);
     this.file = pathToFile;
 
   }
@@ -38,7 +37,7 @@ public class Photo implements IPhoto, RegExpMatchable {
 
   @Override
   public File file() {
-    return this.file; // TODO: Dúvida?
+    return this.file;
   }
 
   @Override
@@ -54,10 +53,11 @@ public class Photo implements IPhoto, RegExpMatchable {
   @Override
   public boolean matches(String regexp) {
     boolean matchesTitle = (this.title != null) && this.title.matches(regexp);
+    boolean matchesFileName = (this.file != null) && this.file.getName().matches(regexp);
     boolean matchesCapturedDate = (this.capturedDate != null) && this.capturedDate.toString().matches(regexp);
     boolean matchesLocation = (this.location != null) && this.location.toString().matches(regexp);
 
-    return matchesTitle || matchesCapturedDate || matchesLocation;
+    return matchesTitle || matchesCapturedDate || matchesLocation || matchesFileName;
   }
 
   @Override
@@ -72,6 +72,6 @@ public class Photo implements IPhoto, RegExpMatchable {
 
   @Override
   public void toggleFavourite() {
-    this.isFavourite = true;
+    this.isFavourite = !this.isFavourite;
   }
 };
