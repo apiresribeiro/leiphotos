@@ -8,10 +8,18 @@ import leiphotos.domain.facade.IViewsController;
 import leiphotos.domain.facade.ViewsType;
 import leiphotos.domain.views.IViewsCatalog;
 
+/**
+ * Controla o acesso e ordenacao das vistas de fotos.
+ */
 public class ViewsController implements IViewsController {
 
     IViewsCatalog viewsCatalog;
 
+    /**
+     * Cria um controlador de vistas.
+     *
+     * @param view catalogo de vistas
+     */
     public ViewsController (IViewsCatalog view){
         this.viewsCatalog = view; 
     }

@@ -7,10 +7,20 @@ import java.time.format.DateTimeFormatter;
 
 import leiphotos.services.JavaXTJpegMetadataReader;
 
+/**
+ * Adaptador da biblioteca JavaXT para a interface de leitura de metadados JPEG.
+ */
 public class JavaXTMetadataReaderAdapter implements JpegMetadataReader {
   private JavaXTJpegMetadataReader metadata;
   private static final DateTimeFormatter METADATA_FORMAT = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
 
+  /**
+   * Cria um leitor de metadados para o ficheiro indicado.
+   *
+   * @param file ficheiro JPEG a ler
+   * @throws JpegMetadataException se nao for possivel ler metadados
+   * @throws FileNotFoundException se o ficheiro nao existir
+   */
   public JavaXTMetadataReaderAdapter(File file) throws JpegMetadataException, FileNotFoundException {
     this.metadata = new JavaXTJpegMetadataReader(file);
   }

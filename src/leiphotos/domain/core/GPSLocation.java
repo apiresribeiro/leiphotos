@@ -3,6 +3,12 @@ package leiphotos.domain.core;
 import leiphotos.domain.facade.GPSCoordinates;
 import leiphotos.utils.RegExpMatchable;
 
+/**
+ * Representa uma localizacao geografica associada a uma foto.
+ *
+ * @param coordinates coordenadas no formato [longitude, latitude]
+ * @param description descricao textual opcional do local
+ */
 public record GPSLocation(
     double[] coordinates,
     String description) implements GPSCoordinates, RegExpMatchable {

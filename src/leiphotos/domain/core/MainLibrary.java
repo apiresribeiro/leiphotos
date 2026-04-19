@@ -10,9 +10,15 @@ import leiphotos.domain.core.events.PhotoRemovedLibraryEvent;
 import leiphotos.domain.facade.IPhoto;
 import leiphotos.utils.AbsSubject;
 
+/**
+ * Biblioteca principal de fotos com emissao de eventos de alteracao.
+ */
 public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Library {
   private final Collection<IPhoto> lib;
 
+  /**
+   * Cria uma biblioteca principal vazia.
+   */
   public MainLibrary() {
     this.lib = new ArrayList<>();
   }
@@ -42,6 +48,11 @@ public class MainLibrary extends AbsSubject<PhotoLibraryEvent> implements Librar
     return removed;
   }
 
+  /**
+   * Notifica que uma foto existente na biblioteca foi alterada.
+   *
+   * @param photo foto alterada
+   */
   public void photoChanged(IPhoto photo) {
     if (lib.contains(photo)) {
       emitEvent(new PhotoChangedLibraryEvent(photo, this));

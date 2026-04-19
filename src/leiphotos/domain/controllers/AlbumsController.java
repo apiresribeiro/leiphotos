@@ -9,11 +9,19 @@ import leiphotos.domain.albums.IAlbumsCatalog;
 import leiphotos.domain.facade.IAlbumsController;
 import leiphotos.domain.facade.IPhoto;
 
+/**
+ * Controla a criacao, selecao e alteracao de albuns.
+ */
 public class AlbumsController implements IAlbumsController {
 
   IAlbumsCatalog catalogAlbums;
   String nomeAlbumSelecionado;
 
+  /**
+   * Cria um controlador de albuns.
+   *
+   * @param catalog catalogo de albuns
+   */
   public AlbumsController(IAlbumsCatalog catalog) {
     this.catalogAlbums = catalog;
     this.nomeAlbumSelecionado = null;

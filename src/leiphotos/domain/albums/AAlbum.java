@@ -8,11 +8,20 @@ import leiphotos.domain.core.MainLibrary;
 import leiphotos.domain.core.events.PhotoLibraryEvent;
 import leiphotos.domain.core.events.PhotoRemovedLibraryEvent;
 
+/**
+ * Implementacao base de album com suporte a sincronizacao por eventos.
+ */
 public abstract class AAlbum implements IAlbum {
   private String nomeAlbum;
   private List<IPhoto> photosAlbum;
   private MainLibrary lib;
 
+  /**
+   * Cria um album associado a biblioteca principal.
+   *
+   * @param nome nome do album
+   * @param library biblioteca principal observada pelo album
+   */
   public AAlbum(String nome, MainLibrary library) {
     this.nomeAlbum = nome;
     this.photosAlbum = new ArrayList<>();

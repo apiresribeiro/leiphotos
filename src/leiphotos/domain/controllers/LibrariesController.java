@@ -10,11 +10,20 @@ import leiphotos.domain.core.MainLibrary;
 import leiphotos.domain.core.PhotoFactory;
 import leiphotos.domain.core.TrashLibrary;
 
+/**
+ * Controla operacoes sobre a biblioteca principal e a biblioteca de lixo.
+ */
 public class LibrariesController implements ILibrariesController {
 
   MainLibrary mainLibrary;
   TrashLibrary trashLibrary;
 
+  /**
+   * Cria um controlador de bibliotecas.
+   *
+   * @param main biblioteca principal
+   * @param trash biblioteca de lixo
+   */
   public LibrariesController(MainLibrary main, TrashLibrary trash) {
     this.mainLibrary = main;
     this.trashLibrary = trash;

@@ -8,11 +8,21 @@ import java.util.List;
 
 import leiphotos.domain.facade.IPhoto;
 
+/**
+ * Implementacao base de vista de biblioteca com filtro e ordenacao.
+ */
 public abstract class ALibraryView implements ILibraryView {
   protected Library library;
   protected Predicate<IPhoto> filter;
   protected Comparator<IPhoto> comparator = Comparator.comparing(IPhoto::size);
 
+  /**
+   * Cria uma vista para uma biblioteca com filtro e comparador.
+   *
+   * @param library biblioteca fonte
+   * @param filter filtro de fotos
+   * @param comparator criterio de ordenacao
+   */
   protected ALibraryView(Library library, Predicate<IPhoto> filter, Comparator<IPhoto> comparator) {
     this.library = library;
     this.filter = filter;

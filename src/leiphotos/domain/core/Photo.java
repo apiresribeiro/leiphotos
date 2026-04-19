@@ -8,6 +8,9 @@ import leiphotos.domain.facade.GPSCoordinates;
 import leiphotos.domain.facade.IPhoto;
 import leiphotos.utils.RegExpMatchable;
 
+/**
+ * Representa uma foto com metadados de captura e classificacao de favorita.
+ */
 public class Photo implements IPhoto, RegExpMatchable {
   private LocalDateTime addedDate;
   private LocalDateTime capturedDate;
@@ -16,6 +19,14 @@ public class Photo implements IPhoto, RegExpMatchable {
   private String title;
   private GPSCoordinates location;
 
+  /**
+   * Cria uma foto com os metadados lidos do ficheiro.
+   *
+   * @param title titulo da foto
+   * @param dateAddedToLib data de adicao a biblioteca
+   * @param metadata metadados extraidos do ficheiro
+   * @param pathToFile ficheiro da foto
+   */
   Photo(String title, LocalDateTime dateAddedToLib, PhotoMetadata metadata, File pathToFile) {
     this.title = title;
     this.addedDate = dateAddedToLib;

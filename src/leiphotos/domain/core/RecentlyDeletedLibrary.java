@@ -9,12 +9,18 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import leiphotos.domain.facade.IPhoto;
 
+/**
+ * Implementacao de uma biblioteca de lixo com limpeza automatica por tempo.
+ */
 public class RecentlyDeletedLibrary extends ATrashLibrary {
   private Collection<IPhoto> photosApagadas;
   private HashMap<IPhoto, LocalDateTime> tempoTrash;
   private final int MAX_TIME = 15;
   private LocalDateTime lastClean;
 
+  /**
+   * Cria uma biblioteca de lixo vazia.
+   */
   public RecentlyDeletedLibrary() {
     this.photosApagadas = new ArrayList<>();
     this.lastClean = LocalDateTime.now();

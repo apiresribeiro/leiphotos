@@ -8,6 +8,9 @@ import leiphotos.domain.core.TrashLibrary;
 import leiphotos.domain.facade.IPhoto;
 import leiphotos.domain.facade.ViewsType;
 
+/**
+ * Catalogo de vistas pre-definidas sobre biblioteca principal e lixo.
+ */
 public class ViewsCatalog implements IViewsCatalog {
   private final Comparator<IPhoto> defaultFilter = Comparator.comparing(IPhoto::size);
 
@@ -16,6 +19,12 @@ public class ViewsCatalog implements IViewsCatalog {
   private final ILibraryView favouritesView;
   private final ILibraryView mostRecentView;
 
+  /**
+   * Cria o catalogo de vistas a partir das bibliotecas principal e lixo.
+   *
+   * @param mainLib biblioteca principal
+   * @param trashLib biblioteca de lixo
+   */
   public ViewsCatalog(MainLibrary mainLib, TrashLibrary trashLib) {
     this.allMainView = new MainLibraryView(mainLib, p -> true, defaultFilter);
     this.allTrashView = new TrashLibraryView(trashLib, p -> true, defaultFilter);

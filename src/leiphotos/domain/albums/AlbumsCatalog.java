@@ -9,11 +9,19 @@ import java.util.Set;
 
 import leiphotos.domain.facade.IPhoto;
 
+/**
+ * Catalogo de albuns indexado por nome.
+ */
 public class AlbumsCatalog implements IAlbumsCatalog {
 
   private HashMap<String, Album> nameToAlbum;
   private MainLibrary lib;
 
+  /**
+   * Cria um catalogo de albuns para a biblioteca principal indicada.
+   *
+   * @param library biblioteca principal
+   */
   public AlbumsCatalog(MainLibrary library) {
     this.nameToAlbum = new HashMap<>();
     this.lib = library;

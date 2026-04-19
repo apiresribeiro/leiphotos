@@ -13,9 +13,19 @@ import leiphotos.domain.core.events.PhotoRemovedLibraryEvent;
 import leiphotos.domain.facade.IPhoto;
 import leiphotos.utils.Listener;
 
+/**
+ * Vista da biblioteca principal com cache e atualizacao por eventos.
+ */
 public class MainLibraryView extends ALibraryView implements Listener<PhotoLibraryEvent> {
   private List<IPhoto> cache = new ArrayList<>();
 
+  /**
+   * Cria uma vista da biblioteca principal.
+   *
+   * @param library biblioteca principal observada
+   * @param filter filtro de fotos
+   * @param comparator criterio de ordenacao
+   */
   public MainLibraryView(MainLibrary library, Predicate<IPhoto> filter, Comparator<IPhoto> comparator) {
     super(library, filter, comparator);
     library.registerListener(this);
