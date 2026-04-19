@@ -74,4 +74,18 @@ public class Photo implements IPhoto, RegExpMatchable {
   public void toggleFavourite() {
     this.isFavourite = !this.isFavourite;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!(obj instanceof Photo other))
+      return false;
+    return this.file != null && this.file.equals(other.file);
+  }
+
+  @Override
+  public int hashCode() {
+    return file == null ? 0 : file.hashCode();
+  }
 };
