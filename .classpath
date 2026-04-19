@@ -7,6 +7,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="lib/junit-jupiter-api.jar"/>
+	<classpathentry kind="lib" path="lib/junit-jupiter-engine.jar"/>
+	<classpathentry kind="lib" path="lib/junit-platform-commons.jar"/>
+	<classpathentry kind="lib" path="lib/junit-platform-console-standalone.jar"/>
+	<classpathentry kind="lib" path="lib/junit-platform-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

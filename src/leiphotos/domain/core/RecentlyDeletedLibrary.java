@@ -12,7 +12,7 @@ import leiphotos.domain.facade.IPhoto;
 public class RecentlyDeletedLibrary extends ATrashLibrary {
   private Collection<IPhoto> photosApagadas;
   private HashMap<IPhoto, LocalDateTime> tempoTrash;
-  private final int MAX_DATE = 30;
+  private final int MAX_TIME = 15;
   private LocalDateTime lastClean;
 
   public RecentlyDeletedLibrary() {
@@ -85,7 +85,7 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
       LocalDateTime trashTime = tempoTrash.get(p);
       if (trashTime != null) {
         Duration d = Duration.between(trashTime, now);
-        if (d.toDays() >= MAX_DATE) {
+        if (d.toSeconds() >= MAX_TIME) {
           toRemove.add(p);
         }
       }
@@ -101,6 +101,6 @@ public class RecentlyDeletedLibrary extends ATrashLibrary {
   @Override
   protected boolean cleaningTime() {
     Duration duration = Duration.between(this.lastClean, LocalDateTime.now());
-    return duration.toDays() >= MAX_DATE;
+    return duration.toSeconds() >= MAX_TIME;
   }
 };
