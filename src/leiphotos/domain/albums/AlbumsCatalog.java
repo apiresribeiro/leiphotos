@@ -5,6 +5,7 @@ import leiphotos.domain.core.MainLibrary;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import leiphotos.domain.facade.IPhoto;
@@ -14,7 +15,7 @@ import leiphotos.domain.facade.IPhoto;
  */
 public class AlbumsCatalog implements IAlbumsCatalog {
 
-  private HashMap<String, Album> nameToAlbum;
+  private Map<String, IAlbum> nameToAlbum;
   private MainLibrary lib;
 
   /**
@@ -40,7 +41,7 @@ public class AlbumsCatalog implements IAlbumsCatalog {
   @Override
   public boolean deleteAlbum(String albumName) {
     if (this.nameToAlbum.containsKey(albumName)) {
-      Album albumToRemove = this.nameToAlbum.get(albumName);
+      IAlbum albumToRemove = this.nameToAlbum.get(albumName);
       this.nameToAlbum.remove(albumName, albumToRemove);
       return true;
     }
@@ -72,7 +73,7 @@ public class AlbumsCatalog implements IAlbumsCatalog {
 
   @Override
   public List<IPhoto> getPhotos(String albumName) {
-    Album album = nameToAlbum.get(albumName);
+    IAlbum album = nameToAlbum.get(albumName);
     return (albumName != null) ? album.getPhotos() : Collections.emptyList();
   }
 
